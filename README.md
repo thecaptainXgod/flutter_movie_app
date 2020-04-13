@@ -1,6 +1,6 @@
-# flutter_assignment
+# flutter_movie_search_app
 
-A new Flutter project.
+A Basic flutter movie search app.
 
 ## Getting Started
 

@@ -39,7 +39,7 @@ class SearchPage extends StatelessWidget {
               child: Text(
               "No Reults Yet",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
             ))

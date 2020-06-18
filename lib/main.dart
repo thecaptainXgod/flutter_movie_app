@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/screens/landing_page.dart';
+import 'package:flutter_course/services/auth.dart';
 import './providers/movie_data_provider.dart';
-import './screens/search_page.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MovieApp());
@@ -36,7 +37,7 @@ class MovieApp extends StatelessWidget {
             ),
           ),
         ),
-        home: SearchPage(),
+        home: LandingPage(auth: Auth(),),
       ),
     );
   }

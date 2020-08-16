@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_course/cubit/movie_cubit.dart';
+import 'package:flutter_course/models/movie_data.dart';
 import 'package:flutter_course/services/auth.dart';
-import 'package:provider/provider.dart';
-import '../providers/movie_data_provider.dart';
+import 'package:flutter_course/widgets/movie_card.dart';
 import '../widgets/search_bar.dart';
-import '../widgets/movie_stack_item.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({
@@ -25,9 +26,6 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Provider
-    final movieProvider = Provider.of<MovieDataProvider>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -57,25 +55,61 @@ class SearchPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.white70,
               ),
-              child: movieProvider.items.isEmpty ||
-                      movieProvider.isSearchKeyEmpty() == true
-                  ? Center(
-                      child: Text(
-                      "No Reults Yet",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+              child: BlocConsumer<MovieCubit, MovieState>(
+                listener: (context, state) {
+                  if (state is MovieLoaded) {
+                    if (state.movies == [])
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("No Movie Entered"),
+                        ),
+                      );
+                  }
+                  if (state is MovieError) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
                       ),
-                    ))
-                  : ListView.builder(
-                      itemCount: movieProvider.items.length,
-                      itemBuilder: (ctx, index) {
-                        return MovieStackItem(index);
-                      }),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is MovieInitial) {
+                    return Center(
+                      child: Text(
+                        "No Result Yet",
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    );
+                  } else if (state is MovieIsLoading) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is MovieLoaded) {
+                    return Center(child: _buildList(context, state.movies));
+                  } else {
+                    return Center(
+                      child: Text(
+                        "No Result Yet",
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildList(BuildContext context, List<MovieData> movies) {
+    return ListView.builder(
+      itemCount: movies.length,
+      itemBuilder: (BuildContext context, int index) {
+        return MovieCard(movie: movies[index]);
+      },
     );
   }
 }

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_course/cubit/movie_cubit.dart';
+import 'package:flutter_course/requests/movie_repository.dart';
 import 'package:flutter_course/screens/landing_page.dart';
 import 'package:flutter_course/services/auth.dart';
-import './providers/movie_data_provider.dart';
-import 'package:provider/provider.dart';
 
 void main() => runApp(MovieApp());
 
 class MovieApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MovieDataProvider>(
-      create: (context) => MovieDataProvider(),
+    return BlocProvider(
+      create: (context) => MovieCubit(MovieRepository()),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -37,7 +38,9 @@ class MovieApp extends StatelessWidget {
             ),
           ),
         ),
-        home: LandingPage(auth: Auth(),),
+        home: LandingPage(
+          auth: Auth(),
+        ),
       ),
     );
   }

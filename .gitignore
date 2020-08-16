@@ -9,6 +9,7 @@
 .history
 .svn/
 *.json
+key.dart
 
 # IntelliJ related
 *.iml

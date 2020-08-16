@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_course/key.dart';
 import '../models/movie_data.dart';
 import 'package:http/http.dart' as http;
 
@@ -37,6 +38,8 @@ class MovieDataProvider with ChangeNotifier {
     return [..._refinedItems];
   }
 
+  final apiKey = ApiKey.apiKey;
+
   void setSearchKey(String key) {
     _searchkey = key;
     // print(_searchkey);
@@ -52,11 +55,7 @@ class MovieDataProvider with ChangeNotifier {
 
   Future<void> getData() async {
     final url =
-<<<<<<< HEAD
-        "https://api.themoviedb.org/3/search/movie?api_key=c121647a2366c08d8ff45762e4ed6adf&query=$_searchkey";
-=======
-        "https://api.themoviedb.org/3/search/movie?api_key=[apikey]&query=$_searchkey";
->>>>>>> 7faef0b64cb9182b91861671d163860d2f8734a6
+        "https://api.themoviedb.org/3/search/movie?api_key=$apiKey&query=$_searchkey";
     try {
       final response = await http.get(
         Uri.encodeFull(url),

@@ -52,7 +52,11 @@ class MovieDataProvider with ChangeNotifier {
 
   Future<void> getData() async {
     final url =
+<<<<<<< HEAD
         "https://api.themoviedb.org/3/search/movie?api_key=c121647a2366c08d8ff45762e4ed6adf&query=$_searchkey";
+=======
+        "https://api.themoviedb.org/3/search/movie?api_key=[apikey]&query=$_searchkey";
+>>>>>>> 7faef0b64cb9182b91861671d163860d2f8734a6
     try {
       final response = await http.get(
         Uri.encodeFull(url),
